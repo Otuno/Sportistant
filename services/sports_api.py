@@ -57,7 +57,44 @@ class SportsAPIClient:
 			print(f"Invalid JSON response: {error}")
 			return []
 
-		events = result.get("events") if result else None
+		events = result.get("results") if result else None
+		if not events:
+			return []
+
+		matches = []
+		for event in events:
+			matches.append(
+				Match(
+					match_id=event.get("idEvent"),
+					home_team=event.get("strHomeTeam"),
+					away_team=event.get("strAwayTeam"),
+					date=event.get("dateEvent"),
+					time=event.get("strTime"),
+					league=event.get("strLeague"),
+					venue=event.get("strVenue"),
+					home_score=event.get("intHomeScore"),
+					away_score=event.get("intAwayScore"),
+					status=event.get("strStatus"),
+				)
+			)
+
+		return matches
+
+	def get_previous_matches(self, team_id):
+		url = f"{self.base_url}/{self.api_key}/eventslast.php?id={team_id}"
+
+		try:
+			response = requests.get(url, timeout=10)
+			response.raise_for_status()
+			result = response.json()
+		except requests.exceptions.RequestException as error:
+			print(f"API request failed: {error}")
+			return []
+		except ValueError as error:
+			print(f"Invalid JSON response: {error}")
+			return []
+
+		events = result.get("results") if result else None
 		if not events:
 			return []
 
