@@ -1,5 +1,6 @@
 import requests
 
+from models.match import Match
 from models.team import Team
 
 
@@ -41,3 +42,40 @@ class SportsAPIClient:
 			stadium=team_data.get("strStadium"),
 			logo_url=team_data.get("strBadge"),
 		)
+
+	def get_upcoming_matches(self, team_id):
+		url = f"{self.base_url}/{self.api_key}/eventsnext.php?id={team_id}"
+
+		try:
+			response = requests.get(url, timeout=10)
+			response.raise_for_status()
+			result = response.json()
+		except requests.exceptions.RequestException as error:
+			print(f"API request failed: {error}")
+			return []
+		except ValueError as error:
+			print(f"Invalid JSON response: {error}")
+			return []
+
+		events = result.get("events") if result else None
+		if not events:
+			return []
+
+		matches = []
+		for event in events:
+			matches.append(
+				Match(
+					match_id=event.get("idEvent"),
+					home_team=event.get("strHomeTeam"),
+					away_team=event.get("strAwayTeam"),
+					date=event.get("dateEvent"),
+					time=event.get("strTime"),
+					league=event.get("strLeague"),
+					venue=event.get("strVenue"),
+					home_score=event.get("intHomeScore"),
+					away_score=event.get("intAwayScore"),
+					status=event.get("strStatus"),
+				)
+			)
+
+		return matches
