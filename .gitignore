@@ -4,3 +4,5 @@ __pycache__/
 *.pyc
 .DS_Store
 data/test_favorites.json
+.agents/
+.claude/
