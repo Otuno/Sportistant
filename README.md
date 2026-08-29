@@ -126,4 +126,4 @@ OK
 
 ## 👥 Authors & Team Contributions
 
-Built with ❤️ by the **Sportistant Engineering Team**.
+Cohort 37 - Group 7 - Python Advanced Class
