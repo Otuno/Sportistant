@@ -72,8 +72,8 @@ class SportsAPIClient:
 					time=event.get("strTime"),
 					league=event.get("strLeague"),
 					venue=event.get("strVenue"),
-					home_score=event.get("intHomeScore"),
-					away_score=event.get("intAwayScore"),
+					home_score=int(event["intHomeScore"]) if event.get("intHomeScore") is not None else None,
+					away_score=int(event["intAwayScore"]) if event.get("intAwayScore") is not None else None,
 					status=event.get("strStatus"),
 				)
 			)
@@ -109,8 +109,8 @@ class SportsAPIClient:
 					time=event.get("strTime"),
 					league=event.get("strLeague"),
 					venue=event.get("strVenue"),
-					home_score=event.get("intHomeScore"),
-					away_score=event.get("intAwayScore"),
+					home_score=int(event["intHomeScore"]) if event.get("intHomeScore") is not None else None,
+					away_score=int(event["intAwayScore"]) if event.get("intAwayScore") is not None else None,
 					status=event.get("strStatus"),
 				)
 			)
