@@ -6,3 +6,5 @@ __pycache__/
 data/test_favorites.json
 .agents/
 .claude/
+data/ai_responses.log
+data/ai_errors.log
